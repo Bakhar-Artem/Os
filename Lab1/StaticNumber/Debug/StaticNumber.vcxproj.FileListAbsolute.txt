@@ -1,0 +1,2 @@
+E:\Os\Os\Lab1\Debug\StaticNumber.pdb
+E:\Os\Os\Lab1\StaticNumber\Debug\StaticNumber.pdb
