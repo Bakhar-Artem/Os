@@ -10,9 +10,9 @@ public:
 	Number& operator+(const Number&)const;
 	Number& operator-(const Number&)const;
 	Number& operator*(const Number&)const;
-	Number& operator/(const Number&)const;
+	Number<double>& operator/(const Number&)const;
 	Number& operator=(const Number&);
-	void sqrt();
+	Number<double>& sqrt();
 	template <typename T2>
 	friend std::ostream& operator<<(std::ostream& , const Number<T2>&);
 	friend Number& atan(const Number& x, const Number& y);
@@ -56,12 +56,12 @@ Number<T>& Number<T>::operator*(const Number& right) const
 
 
 template<typename T>
-Number<T>& Number<T>::operator/(const Number& right) const
+Number<double>& Number<T>::operator/(const Number& right) const
 {
 	if (right.data != 0) {
-		return *(new Number(this->data + right.data));
+		return *(new Number<double>(this->data*1.0 / right.data));
 	}
-	else return *(new Number(0));
+	else return *(new Number<double>(0.0));
 }
 
 template<typename T>
@@ -74,8 +74,9 @@ Number<T>& Number<T>::operator=(const Number& right)
 }
 
 template<typename T>
-void Number<T>::sqrt()
+Number<double>& Number<T>::sqrt()
 {
-	this->data=std::sqrt(this->data);
+	return *(new Number<double>(std::sqrt(this->data)));
+
 }
 

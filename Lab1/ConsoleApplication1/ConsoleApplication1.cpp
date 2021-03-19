@@ -11,9 +11,11 @@ int main()
     Number<double> number3(6);
     Number<int> number4(4);
     Number<double> number5= (number * number2);
-    
     std::cout << (number*number2)<<"\n";
     std::cout << number3 * number5<<"\n";
+    Vector<int> vector(3, 4);
+    std::cout << vector<<"\n";
+    vector.printPolar();
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
