@@ -1,9 +1,8 @@
-#pragma once
 #ifdef VECTOR_EXPORTS
 #define VECTOR_API __declspec(dllexport)
 #else
 #define VECTOR_API __declspec(dllimport)
-#endif
+
 
 
 #include "Number.h"
@@ -49,3 +48,4 @@ std::ostream& operator<<(std::ostream&out , const Vector<T2>& vector)
 	out << "x= " << vector.x << " y= " << vector.y;
 	return out;
 }
+#endif
