@@ -1,4 +1,7 @@
-#pragma once
+#ifndef NUMBER_H
+#define NUMBER_H
+
+
 #include <iostream>
 #include <cmath>
 template <typename T>
@@ -80,3 +83,4 @@ Number<double>& Number<T>::sqrt()
 
 }
 
+#endif // !NUMBER_H
