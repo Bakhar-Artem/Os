@@ -42,27 +42,28 @@ public:
 		return matrix;
 	}
 	Matrix RowAndColMultiply(const Matrix& first, const Matrix& second) {
-		std::queue<HANDLE> queueOfThread;
-		int counter;
+		std::queue<std::thread> queueOfThread;
+		int counter=0;
 		Matrix result(first.getN(), second.getM());
 		for (int i = 0; i < first.getN(); i++)
 		{
-			counter = queueOfThread.size();
 			for (int j = 0; j <second.getM() ; j++)
 			{
 			if (counter < threads) {
-				std::thread thr(threadMultiplyItoJ, std::cref(first), std::cref(second), std::ref(result), std::ref(i), std::ref(j));
-				queueOfThread.push(thr.native_handle());
+				queueOfThread.push(std::thread(threadMultiplyItoJ, std::cref(first), std::cref(second), std::ref(result), i, j));
 				counter++;
 			}
 			else {
-				WaitForSingleObject(queueOfThread.front(), INFINITE);
+				queueOfThread.front().join();
 				queueOfThread.pop();
-				std::thread thr(threadMultiplyItoJ, std::cref(first), std::cref(second), std::ref(result), std::ref(i), std::ref(j));
-				queueOfThread.push(thr.native_handle());
+				queueOfThread.push(std::thread(threadMultiplyItoJ, std::cref(first), std::cref(second), std::ref(result), i, j));
 			}
 			}
 			
+		}
+		while (!queueOfThread.empty()) {
+			queueOfThread.front().join();
+			queueOfThread.pop();
 		}
 		return result;
 
