@@ -10,6 +10,7 @@ class Matrix
 {
 public:
 	Matrix(const std::vector<std::vector<double>>& matrix_, int n_, int m_) :matrix(matrix_), n(n_), m(m_) {};
+	Matrix(const Matrix& right) :matrix(right.matrix), n(right.n), m(right.m) {};
 	Matrix(int n_, int m_) : n(n_), m(m_) {
 		matrix.resize(n);
 		for (int i = 0; i < n; i++)

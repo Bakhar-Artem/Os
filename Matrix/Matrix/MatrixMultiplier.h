@@ -4,22 +4,52 @@
 #include <chrono>
 #include <queue>
 #include <thread>
+#include <intsafe.h>
 
-void threadMultiplyItoJ(const Matrix& first, const Matrix& second, Matrix& result, int i, int j) {
+class Params
+{
+public:
+	Params(const Matrix& first, const Matrix& second, Matrix& result, int i, int j) :first(first), second(second), result(result), i(i), j(j) {};
+	~Params() {};
+	const Matrix& getFirst()const { return first; };
+	const Matrix& getSecond()const { return second; };
+	Matrix& getResult() { return result; };
+	int getI() {
+		return i;
+	}
+	int getJ() { return j; };
+	void setI(int i) { this->i = i; };
+	void setJ(int j) { this->j = j; };
+private:
+	const Matrix& first;
+	const Matrix& second;
+	Matrix& result;
+	int i;
+	int j;
+};
+DWORD WINAPI threadMultiplyItoJ(LPVOID param) {
+	Params* data = (Params*)param;
+	const Matrix& first = data->getFirst();
+	const Matrix& second = data->getSecond();
+	Matrix& result = data->getResult();
+	int i = data->getI();
+	int j = data->getJ();
+
 	double sum = 0;
 	for (int s = 0; s < first.getN(); s++)
 	{
 		sum += first.getPos(i, s) * second.getPos(s, j);
 	}
 	result.setPos(i, j, sum);
-	ExitThread(0);
+	return 0;
 }
 
 class MatrixMultiplier
 {
 public:
-	MatrixMultiplier():threads(0) {};
-	MatrixMultiplier(int threads_):threads(threads_) {};
+	MatrixMultiplier():countOfThreads(0) {};
+	MatrixMultiplier(int threads_):countOfThreads(threads_) {};
+
 
 	Matrix DefaultMultiply(const Matrix& first, const Matrix& second) {
 		if (first.getM() != second.getN()) {
@@ -41,38 +71,37 @@ public:
 		
 		return matrix;
 	}
-	Matrix RowAndColMultiply(const Matrix& first, const Matrix& second) {
-		std::queue<std::thread> queueOfThread;
+	Matrix RowAndColMultiply(const Matrix& first,const Matrix& second) {
+		HANDLE* handlesOfThread=new HANDLE[countOfThreads];
 		int counter=0;
 		Matrix result(first.getN(), second.getM());
+		Params params(first, second, result, 0, 0);
 		for (int i = 0; i < first.getN(); i++)
 		{
 			for (int j = 0; j <second.getM() ; j++)
 			{
-			if (counter < threads) {
-				queueOfThread.push(std::thread(threadMultiplyItoJ, std::cref(first), std::cref(second), std::ref(result), i, j));
+				params.setI(i);
+				params.setJ(j);
+				if (counter < countOfThreads) {
+				handlesOfThread[counter]=(CreateThread(NULL, 0, &threadMultiplyItoJ, &params, 0, NULL));
 				counter++;
-			}
-			else {
-				queueOfThread.front().join();
-				queueOfThread.pop();
-				queueOfThread.push(std::thread(threadMultiplyItoJ, std::cref(first), std::cref(second), std::ref(result), i, j));
-			}
+				}
+				else {
+				int pos=WaitForMultipleObjects(countOfThreads,handlesOfThread,FALSE,INFINITE);
+				handlesOfThread[pos] = (CreateThread(NULL, 0, &threadMultiplyItoJ, &params, 0, NULL));
+				}
 			}
 			
 		}
-		while (!queueOfThread.empty()) {
-			queueOfThread.front().join();
-			queueOfThread.pop();
-		}
+		WaitForMultipleObjects(countOfThreads, handlesOfThread, TRUE, INFINITE);
 		return result;
-
 	}
 	~MatrixMultiplier() {};
 
 private:
-	int threads;
+	int countOfThreads;
 	double multiplyItoJ(const Matrix& first, const Matrix& second,int i, int j);
+
 
 };
 
@@ -84,5 +113,6 @@ double MatrixMultiplier::multiplyItoJ(const Matrix& first,const Matrix& second,i
 	}
 	return sum;
 }
+
 #endif // !MATRIXMULTIPLIER_H
 
