@@ -1,2 +1,14 @@
 ﻿  main.cpp
-  Matrix.vcxproj -> E:\Os\Os\Matrix\Debug\Matrix.exe
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(121,25): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(123,26): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(130,25): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(132,26): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(138,24): error C2079: "multy" использует не имеющую определения структуру class "MatrixMultiplier"
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(139,14): error C2512: Matrix::Matrix: нет подходящего конструктора по умолчанию
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(143,24): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(145,13): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(146,30): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(240,11): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(241,11): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(242,11): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+E:\Os\Os\Matrix\Matrix\MatrixMultiplier.h(243,11): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных

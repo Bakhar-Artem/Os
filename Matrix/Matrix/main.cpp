@@ -1,4 +1,3 @@
-
 #include "Matrix.h"
 #include "MatrixMultiplier.h"
 #include <chrono>
@@ -49,7 +48,6 @@ int main() {
 	matrixArray[1].printMatrix();
 	std::cout << "\n";
 
-
 	MatrixMultiplier multiplier(0);
 	auto start = std::chrono::steady_clock::now();
 	Matrix result=multiplier.DefaultMultiply(matrixArray[0], matrixArray[1]);
@@ -60,13 +58,31 @@ int main() {
 	std::cout << "\n";
 
 
-	MatrixMultiplier multiplier2(5);
+	MatrixMultiplier multiplier2(20);
 	start = std::chrono::steady_clock::now();
-	Matrix result2 = multiplier2.RowAndColMultiply(matrixArray[0], matrixArray[1]);
+	Matrix result2(multiplier2.RowAndColMultiply(matrixArray[0], matrixArray[1]));
 	finish = std::chrono::steady_clock::now();
 	time = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
 	std::cout << time.count() << " ms\n";
 	result2.printMatrix();
+	std::cout << "\n";
+
+	MatrixMultiplier multiplier3(5);
+	start = std::chrono::steady_clock::now();
+	Matrix result3(multiplier3.ColAndRowMultiply(matrixArray[0], matrixArray[1]));
+	finish = std::chrono::steady_clock::now();
+	time = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
+	std::cout << time.count() << " ms\n";
+	result3.printMatrix();
+	std::cout << "\n";
+
+	MatrixMultiplier multiplier4(5);
+	start = std::chrono::steady_clock::now();
+	Matrix result4(multiplier4.BlocksMultiply(matrixArray[0], matrixArray[1]));
+	finish = std::chrono::steady_clock::now();
+	time = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
+	std::cout << time.count() << " ms\n";
+	result3.printMatrix();
 	std::cout << "\n";
 	return 0;
 }

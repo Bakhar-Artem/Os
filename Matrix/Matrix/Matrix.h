@@ -5,7 +5,6 @@
 #include <windows.h>
 #include <mutex>
 
-std::mutex lock;
 class Matrix
 {
 public:
@@ -35,10 +34,10 @@ public:
 		}
 		matrix[i][j]=value;
 	}
-	int getN()const {
+	const int getN()const {
 		return n;
 	}
-	int getM()const {
+	const int getM()const {
 		return m;
 	}
 	void printMatrix() {
